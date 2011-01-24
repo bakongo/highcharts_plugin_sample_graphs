@@ -1,42 +1,35 @@
 class GraphsController < ApplicationController
 
+  def index
+    # nothing to see here, move on
+  end
+  
+  
   def time_series
     number = 100
-    @last_100_days = generate_dates(number)
+    @last_x_days = generate_dates(number)
     
-    chart_title, chart_tag = "Chart One", "chart_ibe"
-    metric = 'housing market'
     @highchart = HighChart.new('chart_tag') do |f|
       f.chart({:zoomType =>'x', :defaultSeriesType => 'spline'})
       f.title(:text => 'Flower Market')
       f.x_axis({:type =>'datetime'})
       f.y_axis({:title => 'flowers'})
-      chart_begin_js = "Date.UTC(#{@last_100_days[0].year}, #{@last_100_days[0].month-1}, #{@last_100_days[0].day})"
-      f.series(:name => 'violets', :data => generate_numbers(number), :pointStart => chart_begin_js, :pointInterval => 24*3600*1000)
-      f.series(:name => 'sunflowers', :data => generate_numbers(number), :pointStart => chart_begin_js, :pointInterval => 24*3600*1000)
+      chart_begin_js = "Date.UTC(#{@last_x_days[0].year}, #{@last_x_days[0].month-1}, #{@last_x_days[0].day})"
+      f.series(:name => 'violets', :data => generate_numbers(number), :pointInterval => 24*3600*1000)
+      f.series(:name => 'sunflowers', :data => generate_numbers(number), :pointInterval => 24*3600*1000)
     end
   end
-  
-  # chart: #{object.options[:chart].to_json},
-  # title: #{object.options[:title].to_json},
-  # legend: #{object.options[:legend].to_json},
-  # xAxis: #{object.options[:x_axis].to_json},
-  # yAxis: #{object.options[:y_axis].to_json},
-  # tooltip:  #{object.options[:tooltip].to_json},
-  # credits: #{object.options[:credits].to_json},
-  # plotOptions: #{object.options[:plot_options].to_json},
-  # series: #{object.data.to_json},
-  # subtitle: #{object.options[:subtitle].to_json}
-  
-  def time_series_original
     
-    @highchart = HighChart.new('graph') do |f|
+  def area_time_series
+    
+    @highchart = HighChart.new('chart_tag') do |f|
       f.title(:text => 'SCACs in Yard')
       f.chart(:defaultSeriesType => "timeseries")
       f.x_axis({:type => 'datetime', :maxZoom => 14*24*3600*1000})
       f.y_axis({:title => {:text => 'Exch Rate'}, :min => 0.6, :startOnTicket => false, :showFirstLabel => false})
       #f.plot_options({:area => {:lineWidth => 4, :fillColor => {:linearGradient => [0, 0, 0, 300]}}})
-      f.series(:type => 'area', :name => 'asdf', :pointInterval => 24*3600*1000, :pointStart => 'Date.UTC(2006,1,1)', :data => generate_numbers(100))
+      f.series(:type => 'area', :name => 'butterflies', :pointInterval => 24*3600*1000*30, :data => generate_numbers(100))
+      f.series(:type => 'area', :name => 'crickets', :pointInterval => 24*3600*1000*30, :data => generate_numbers(100))
     end
     
   end
@@ -134,6 +127,5 @@ class GraphsController < ApplicationController
     cats = ['DELE', 'KFTN', "ARES", 'LUCK', 'PINC', 'SCNN']
     cats[0...number]
   end
-  
   
 end

@@ -1,3 +1,11 @@
 <h1>Graphs: Time Series</h1>
 
-<%= high_chart('chart_tag', @highchart) %>
+<% high_graph_options do %>
+    <%= "//console.log(options.series);
+        for (var i = 0; i < options.series.length; i++) 
+            options.series[i].pointStart = Date.UTC(2005,10,10);
+        "%>
+<% end %>
+
+<%= high_chart("chart_tag", @highchart) %>
+
