@@ -1,6 +1,6 @@
-Sample rails app with some examples on Highchart usage. 
-Running it with Rails 2.3.10. 
-App running at heroku: http://quiet-window-877.heroku.com.
+Sample rails app with some examples on Highchart usage, running it with Rails 2.3.10. 
+
+App running at [heroku](http://quiet-window-877.heroku.com).
 
 
 To see/use it yourself:
