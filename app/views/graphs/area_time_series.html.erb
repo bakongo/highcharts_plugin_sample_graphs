@@ -1,4 +1,7 @@
-<h1>Graphs: Time Series</h1>
+<h2>Graphs: Area Time Series</h2>
+
+<%= render :partial => 'links_to_code_on_github' %>
+
 
 <% high_graph_options do %>
     <%= "//console.log(options.series);
@@ -6,6 +9,7 @@
             options.series[i].pointStart = Date.UTC(2005,10,10);
         "%>
 <% end %>
-
+<div>
 <%= high_chart("chart_tag", @highchart) %>
-
+</div>
+<hr />

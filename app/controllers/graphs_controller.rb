@@ -1,5 +1,7 @@
 class GraphsController < ApplicationController
 
+  before_filter :get_view_link
+
   def index
     # nothing to see here, move on
   end
@@ -23,14 +25,14 @@ class GraphsController < ApplicationController
   def area_time_series
     
     @highchart = HighChart.new('chart_tag') do |f|
-      f.title(:text => 'SCACs in Yard')
+      f.title(:text => 'Pollination')
       f.chart(:defaultSeriesType => "timeseries")
       f.x_axis({:type => 'datetime', :maxZoom => 14*24*3600*1000})
-      f.y_axis({:title => {:text => 'Exch Rate'}, :min => 0.6, :startOnTicket => false, :showFirstLabel => false})
+      f.y_axis({:title => {:text => 'Square Miles'}, :min => 0.6, :startOnTicket => false, :showFirstLabel => false})
       #f.plot_options({:area => {:lineWidth => 4, :fillColor => {:linearGradient => [0, 0, 0, 300]}}})
       f.series(:type => 'area', :name => 'butterflies', :pointInterval => 24*3600*1000*30, :data => generate_numbers(100))
-      f.series(:type => 'area', :name => 'crickets', :pointInterval => 24*3600*1000*30, :data => generate_numbers(100))
-    end
+      f.series(:type => 'area', :name => 'bees', :pointInterval => 24*3600*1000*30, :data => generate_numbers(100))
+    end    
     
   end
 
@@ -42,11 +44,13 @@ class GraphsController < ApplicationController
     @categories.each_with_index {|c,i| assoc << [c, @numbers[i]]}
     
     @highchart = HighChart.new('graph') do |f|
-      f.title(:text => 'SCACs in Yard')
+      f.title(:text => 'Flowers in Yard')
       f.options[:chart][:defaultSeriesType] = "pie"
       f.options[:x_axis][:categories] = @categories
-      f.series(:type => 'pie', :name => 'SCAC Presence', :data => assoc)
+      f.series(:type => 'pie', :name => 'Flower Presence', :data => assoc)
     end
+    
+
   end
   
 
@@ -55,7 +59,7 @@ class GraphsController < ApplicationController
     @numbers = generate_numbers(5)
     
     @highchart = HighChart.new('graph') do |f|
-      f.title(:text => 'SCACs per Hour')
+      f.title(:text => 'Means per Hour')
       f.y_axis({:title=> {:text=> 'Hours'}, :labels=>{:align=>'right'} })
       
       f.options[:chart][:defaultSeriesType] = "bar"
@@ -73,7 +77,7 @@ class GraphsController < ApplicationController
     @categories.each_with_index {|c,i| assoc << [c, @numbers[i]]}
     
     @highchart_one = HighChart.new('graph_one') do |f|
-      f.title(:text => 'SCACs per Hour')
+      f.title(:text => 'Meals per Hour')
       f.y_axis({:title=> {:text=> 'Hours'}, :labels=>{:align=>'right'} })
       
       f.options[:chart][:defaultSeriesType] = "bar"
@@ -84,10 +88,10 @@ class GraphsController < ApplicationController
     end
     
     @highchart_two = HighChart.new('graph_two') do |f|
-      f.title(:text => 'SCACs in Yard')
+      f.title(:text => 'Flower in Yard')
       f.options[:chart][:defaultSeriesType] = "pie"
       f.options[:x_axis][:categories] = @categories
-      f.series(:type => 'pie', :name => 'SCAC Presence', :data => assoc)
+      f.series(:type => 'pie', :name => 'Flower Presence', :data => assoc)
     end
   end
   
@@ -95,7 +99,7 @@ class GraphsController < ApplicationController
   def area_spline
     @categories = generate_categories(5)
     @highchart = HighChart.new('graph') do |f|
-      f.title(:text => 'SCACs in Yard')
+      f.title(:text => 'Flowers in Yard')
       f.options[:chart][:defaultSeriesType] = "areaspline"
       f.options[:x_axis][:categories] = @categories
       f.options[:y_axis][:title] = "Miles in the Sky"
@@ -105,7 +109,6 @@ class GraphsController < ApplicationController
       f.series(:name => 'jane', :data => generate_numbers(5))      
     end    
   end
-  
   
   
   private
@@ -124,8 +127,13 @@ class GraphsController < ApplicationController
   end
   
   def generate_categories(number)
-    cats = ['DELE', 'KFTN', "ARES", 'LUCK', 'PINC', 'SCNN']
+    cats = ['Sunflower', 'Magnolia', "Rose", 'Lily', 'Tulip', 'Iris']
     cats[0...number]
   end
   
+  def get_view_link
+    @controller_code_link = "https://github.com/bakongo/highcharts_plugin_sample_graphs/tree/master/app/controllers/graphs_controller.rb"        
+    @view_code_link = "https://github.com/bakongo/highcharts_plugin_sample_graphs/tree/master/app/views/graphs/#{action_name}.html.erb"    
+  end
+
 end
